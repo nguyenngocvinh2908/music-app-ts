@@ -7,5 +7,6 @@ export const topics = async (req: Request, res: Response) => {
 
   res.render('client/pages/topics/index', {
     titlePage: 'Topics Music',
+    topics: topics
   })
 }

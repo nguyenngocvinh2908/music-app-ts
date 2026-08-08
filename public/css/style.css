@@ -1,4 +1,8 @@
 /* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -24,9 +28,21 @@ p {
   padding: 1rem 0;
 }
 
+.header .inner-logo {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
 .header .inner-logo img {
   max-height: 50px;
   max-width: 100%;
+}
+
+.header .inner-logo .logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .header .inner-menu > ul {
@@ -51,6 +67,50 @@ p {
 
 .header .inner-menu > ul > li > a:hover {
   color: #007bff;
+}
+
+/* Card Topics Music */
+.card {
+  min-height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  margin-top: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card .card-img-top {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.card .card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.card .card-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.card .card-text {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.card .card-link {
+  margin-top: auto;
 }
 
 /* Footer Styles */
