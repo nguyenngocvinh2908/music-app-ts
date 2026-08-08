@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES6", // Cho phep TS su dung cac tinh nang cua ES6
+    "module": "commonjs", // Cho phep TS su dung module commonjs
+    "removeComments": true, // Xoa cac comment trong file JS sau khi bi bien dich
+    "esModuleInterop": true, // Su dung de cho phep import cac module ES6 vao trong TS
+    "outDir": "dist" // Thu muc chua cac file JS sau khi bi bien dich
+  }
+}
