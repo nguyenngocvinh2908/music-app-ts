@@ -1,9 +1,9 @@
-import express, { Request, Response, Application } from 'express'
+import express, { Request, Response, Express } from 'express'
 import dotenv from 'dotenv'
 import * as database from './config/database'
-import Topic from './models/topic'
+import clientRoutes from './routes/client'
 
-const app: Application = express()
+const app: Express = express()
 const port: number | string = process.env.PORT || 3000
 
 // Pug
@@ -13,16 +13,14 @@ app.set('view engine', 'pug')
 // Env
 dotenv.config()
 
+// Nhúng file tĩnh (CSS, JS, hình ảnh,...) vào ứng dụng
+app.use(express.static('public'))
+
 // Database
 database.connectDatabase()
 
-app.get('/topics', async (req: Request, res: Response) => {
-  const topics = await Topic.find({ deleted: false })
-
-  console.log(topics)
-  
-  res.render('client/pages/topics/index')
-})
+// Client Routes
+clientRoutes(app)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
