@@ -113,6 +113,47 @@ p {
   margin-top: auto;
 }
 
+/* Songs Styles */
+.song-item {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 12px;
+  gap: 16px;
+}
+
+.song-item .inner-image img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.song-item .inner-content {
+  flex: 1;
+}
+
+.song-item .inner-title a {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  text-decoration: none;
+}
+
+.song-item .inner-singer,
+.song-item .inner-like,
+.song-item .inner-time {
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 /* Footer Styles */
 .footer {
   background-color: #d5e5f5;
