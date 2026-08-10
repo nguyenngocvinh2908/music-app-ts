@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import Topic from '../../models/topic'
 import Song from '../../models/song'
 import Singer from '../../models/singer'
+import FavouriteSong from '../../models/favourite-songs'
 
 // [ GET ] "/songs/:slugTopic"
 export const songsOfTopic = async (req: Request, res: Response) => {
@@ -45,15 +46,19 @@ export const songsOfTopic = async (req: Request, res: Response) => {
   }
 }
 
-// [ GET ] "/song/detail/:slugSong"
+// [ GET ] "/songs/detail/:slugSong"
 export const songDetail = async (req: Request, res: Response) => {
   const slugSong: String | String[] = req.params.slugSong
   // Get The Infomation Song
-  const song: any = await Song.findOne({ slug: slugSong.toString(), status: "active", deleted: false })
+  const song: any = await Song.findOne({ slug: slugSong.toString(), status: "active", deleted: false }).lean()
   // Get The Singer
   const singerOfSong = await Singer.findOne({ _id: song.singerId, status: "active", deleted: false }).select('fullName')
   // Get The Topic
   const topicOfSong = await Topic.findOne({ _id: song.topicId, status: "active", deleted: false })
+  // Favourite Song
+  const favourite = await FavouriteSong.findOne({ songId: song._id, deleted: false })
+  if(song) song.favourite = Boolean(favourite)
+
   try {
     res.render('client/pages/songs/detail', {
       titlePage: song.title,
@@ -70,7 +75,7 @@ export const songDetail = async (req: Request, res: Response) => {
   }
 }
 
-// [ GET ] "/song/like/:typeLike/:idSong"
+// [ PATCH ] "/song/like/:typeLike/:idSong"
 export const likeSong = async (req: Request, res: Response) => {
   const idSong: string | string[] = req.params.idSong
   const typeLike: string | string[] = req.params.typeLike
@@ -84,5 +89,28 @@ export const likeSong = async (req: Request, res: Response) => {
     code: 200,
     message: "Success",
     like: newLike
+  })
+}
+
+// [ PATCH ] "songs/favourite/:typeFavourite/:idSong"
+export const favourite = async (req: Request, res: Response) => {
+  const idSong: string | string[] = req.params.idSong
+  const typeFavourite: string | string[] = req.params.typeFavourite
+  
+  switch (typeFavourite) {
+    case "unfavourite":
+      await FavouriteSong.deleteOne({ songId: idSong })
+      break
+    case "favourite":
+      const record = new FavouriteSong({ songId: idSong })
+      await record.save()
+      break
+    default:
+      break
+  }
+
+  res.json({
+    code: 200,
+    message: "Success",
   })
 }

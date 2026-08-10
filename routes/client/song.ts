@@ -9,5 +9,7 @@ router.get('/detail/:slugSong', controller.songDetail)
 
 router.patch('/like/:typeLike/:idSong', controller.likeSong)
 
+router.patch('/favourite/:typeFavourite/:idSong', controller.favourite)
+
 
 export const SongRouter: Router = router

@@ -34,9 +34,24 @@ if(buttonLike) {
     const link = buttonLike.classList.contains('active') ? `/songs/like/dislike/${idSong}` : `/songs/like/like/${idSong}`
 
     fetch(link, { method: 'PATCH' }).then(res => res.json()).then(data => {
-      const countLike = buttonLike.querySelector("span")
-      countLike.innerHTML = `${data.like}`
-      buttonLike.classList.toggle("active")
+      if(data.code === 200) {
+        const countLike = buttonLike.querySelector("span")
+        countLike.innerHTML = `${data.like}`
+        buttonLike.classList.toggle("active")
+      }
+    })
+  })
+}
+
+// Button Favourite
+const buttonFavourite = document.querySelector('[data-favourite-id-song]')
+if(buttonFavourite) {
+  buttonFavourite.addEventListener('click', (e) =>{
+    const idSong = buttonFavourite.getAttribute('data-favourite-id-song')
+    const link = buttonFavourite.classList.contains('active') ? `/songs/favourite/unfavourite/${idSong}` : `/songs/favourite/favourite/${idSong}`
+
+    fetch(link, { method: 'PATCH' }).then(res => res.json()).then(data => {
+      if(data.code === 200) buttonFavourite.classList.toggle("active")
     })
   })
 }

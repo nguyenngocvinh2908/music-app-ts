@@ -216,10 +216,13 @@ p {
   color: #ef4444;
 }
 
+.singer-detail .inner-action.inner-heart.active,
 .singer-detail .inner-action.inner-like.active {
   color: #4f46e5;
   background-color: #e0e7ff;
 }
+
+
 
 /* Khu vực phát nhạc (Play Box) */
 .singer-detail .inner-play {
