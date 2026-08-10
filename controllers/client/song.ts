@@ -45,3 +45,28 @@ export const songsOfTopic = async (req: Request, res: Response) => {
   }
 }
 
+// [ GET ] "/song/detail/:slugSong"
+export const songDetail = async (req: Request, res: Response) => {
+  const slugSong: String | String[] = req.params.slugSong
+  // Get The Infomation Song
+  const song: any = await Song.findOne({ slug: slugSong.toString(), status: "active", deleted: false })
+  // Get The Singer
+  const singerOfSong = await Singer.findOne({ _id: song.singerId, status: "active", deleted: false }).select('fullName')
+  // Get The Topic
+  const topicOfSong = await Topic.findOne({ _id: song.topicId, status: "active", deleted: false })
+  try {
+    res.render('client/pages/songs/detail', {
+      titlePage: song.title,
+      song: song,
+      singer: singerOfSong,
+      topic: topicOfSong
+    })
+  } catch(e) {
+    return res.status(500).render('client/pages/errors/index', {
+      errorCode: "500",
+      errorTitle: "A server error occurred.",
+      errorMessage: "The system is experiencing an interruption. Please try again in a few minutes."
+    });
+  }
+}
+

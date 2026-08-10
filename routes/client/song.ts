@@ -5,4 +5,7 @@ const router: Router = Router() // Tạo 1 đối tượng router để quản l
 
 router.get('/:slugTopic', controller.songsOfTopic)
 
+router.get('/detail/:slugSong', controller.songDetail)
+
+
 export const SongRouter: Router = router
