@@ -216,6 +216,11 @@ p {
   color: #ef4444;
 }
 
+.singer-detail .inner-action.inner-like.active {
+  color: #4f46e5;
+  background-color: #e0e7ff;
+}
+
 /* Khu vực phát nhạc (Play Box) */
 .singer-detail .inner-play {
   display: flex;
@@ -304,7 +309,7 @@ p {
 }
 .singer-detail .inner-avatar .singer-avatar {
   animation: spin 12s linear infinite;
-  /* animation-play-state: paused; */
+  animation-play-state: paused;
 }
 
 

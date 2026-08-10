@@ -26,4 +26,17 @@ if(aplayer) {
   }
 }
 
+// Button Like Song
+const buttonLike = document.querySelector('[data-id-song]')
+if(buttonLike) {
+  buttonLike.addEventListener('click', (e) =>{
+    const idSong = buttonLike.getAttribute('data-id-song')
+    const link = buttonLike.classList.contains('active') ? `/songs/like/dislike/${idSong}` : `/songs/like/like/${idSong}`
 
+    fetch(link, { method: 'PATCH' }).then(res => res.json()).then(data => {
+      const countLike = buttonLike.querySelector("span")
+      countLike.innerHTML = `${data.like}`
+      buttonLike.classList.toggle("active")
+    })
+  })
+}

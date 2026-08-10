@@ -70,3 +70,19 @@ export const songDetail = async (req: Request, res: Response) => {
   }
 }
 
+// [ GET ] "/song/like/:typeLike/:idSong"
+export const likeSong = async (req: Request, res: Response) => {
+  const idSong: string | string[] = req.params.idSong
+  const typeLike: string | string[] = req.params.typeLike
+  
+  const song: any = await Song.findOne({ _id: idSong, deleted: false, status: "active"})
+  const newLike: number = typeLike === "like" ? song.like + 1 : song.like - 1
+  await Song.updateOne({ _id: idSong, deleted: false, status: "active"}, { like: newLike })
+
+
+  res.json({
+    code: 200,
+    message: "Success",
+    like: newLike
+  })
+}
