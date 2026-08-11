@@ -44,14 +44,16 @@ if(buttonLike) {
 }
 
 // Button Favourite
-const buttonFavourite = document.querySelector('[data-favourite-id-song]')
-if(buttonFavourite) {
-  buttonFavourite.addEventListener('click', (e) =>{
-    const idSong = buttonFavourite.getAttribute('data-favourite-id-song')
-    const link = buttonFavourite.classList.contains('active') ? `/songs/favourite/unfavourite/${idSong}` : `/songs/favourite/favourite/${idSong}`
+const ListButtonFavourite = document.querySelectorAll('[data-favourite-id-song]')
+if(ListButtonFavourite.length > 0) {
+  ListButtonFavourite.forEach((buttonFavourite) => {
+    buttonFavourite.addEventListener('click', (e) =>{
+      const idSong = buttonFavourite.getAttribute('data-favourite-id-song')
+      const link = buttonFavourite.classList.contains('active') ? `/songs/favourite/unfavourite/${idSong}` : `/songs/favourite/favourite/${idSong}`
 
-    fetch(link, { method: 'PATCH' }).then(res => res.json()).then(data => {
-      if(data.code === 200) buttonFavourite.classList.toggle("active")
+      fetch(link, { method: 'PATCH' }).then(res => res.json()).then(data => {
+        if(data.code === 200) buttonFavourite.classList.toggle("active")
+      })
     })
   })
 }

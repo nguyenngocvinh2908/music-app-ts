@@ -146,6 +146,7 @@ p {
 
 .song-item .inner-singer,
 .song-item .inner-like,
+.song-item .inner-heart,
 .song-item .inner-time {
   font-size: 13px;
   color: #64748b;
@@ -153,6 +154,14 @@ p {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.song-item .inner-heart.active {
+  max-width: fit-content;
+  color: #ef4444;
+  background:#e0e7ff;
+  cursor: pointer;
+  border-radius: 20px;
 }
 
 /* SONG DETAIL PAGE STYLES */

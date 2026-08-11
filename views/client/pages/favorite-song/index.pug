@@ -1,0 +1,24 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3 
+    .row 
+      .col-12 
+        +box-head(titlePage)
+    
+    .row
+      each favoriteSong in favoriteSongs
+        .col-4.mb-3
+          div(class="song-item")
+            div(class="inner-image")
+              a(href=`/songs/detail/${favoriteSong.inforSong.slug}`)
+                img(src=favoriteSong.inforSong.avatar alt=favoriteSong.inforSong.title)
+            div(class="inner-content")
+              div(class="inner-title")
+                a(href=`/songs/detail/${favoriteSong.inforSong.slug}`) #{favoriteSong.inforSong.title}
+              div(class="inner-singer")
+                <i class="fa-solid fa-microphone-lines"></i> #{favoriteSong.inforSinger.fullName}
+              div(class="inner-heart active" data-favourite-id-song=favoriteSong.inforSong._id)
+                <i class="fa-regular fa-heart"></i> Favorite Music
+              div(class="inner-time") <i class="fa-regular fa-clock"></i> Today
