@@ -1,0 +1,23 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3 
+    .row 
+      .col-12 
+        +box-head(titlePage)
+    
+    .row
+      each record in records
+        .col-4.mb-3
+          div(class="song-item")
+            div(class="inner-image")
+              a(href=`/songs/detail/${record._doc.slug}`)
+                img(src=record._doc.avatar alt=record._doc.title)
+            div(class="inner-content")
+              div(class="inner-title")
+                a(href=`/songs/detail/${record._doc.slug}`) #{record._doc.title}
+              div(class="inner-singer")
+                <i class="fa-solid fa-microphone-lines"></i> #{record.inforSinger.fullName}
+              div(class="inner-like") <i class="fa-solid fa-thumbs-up"></i> #{record._doc.like}
+              div(class="inner-time") <i class="fa-regular fa-clock"></i> Hom nay
