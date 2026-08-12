@@ -23,6 +23,18 @@ if(aplayer) {
     ap.on('pause', function() {
       avatarPlate.style.animationPlayState = "paused"
     })
+
+    ap.on('ended', function() {
+      const link = `/songs/listen/${songData._id}`
+      fetch(link, { method: "PATCH" }).then(res => res.json()).then(data =>{
+        if(data.code === 200) {
+          const divListen = document.querySelector('.inner-listen')
+          const spanListen = divListen.querySelector('span')
+          spanListen.innerHTML = `${data.listen}`
+          
+        }
+      })
+    })
   }
 }
 

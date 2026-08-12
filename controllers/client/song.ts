@@ -92,7 +92,7 @@ export const likeSong = async (req: Request, res: Response) => {
   })
 }
 
-// [ PATCH ] "songs/favourite/:typeFavourite/:idSong"
+// [ PATCH ] "/songs/favourite/:typeFavourite/:idSong"
 export const favourite = async (req: Request, res: Response) => {
   const idSong: string | string[] = req.params.idSong
   const typeFavourite: string | string[] = req.params.typeFavourite
@@ -112,6 +112,21 @@ export const favourite = async (req: Request, res: Response) => {
   res.json({
     code: 200,
     message: "Success",
+  })
+}
+
+// [ PATCH ] "/songs/listen/:idSong"
+export const listen  = async (req: Request, res: Response) => {
+  const idSong = req.params.idSong
+  const song: any = await Song.findOne({ _id: idSong, deleted: false, status: "active" })
+  const listen: number = song.listened + 1
+  await song.updateOne({ _id: idSong }, { listened: listen })
+  const songNew: any = await Song.findOne({ _id: idSong, deleted: false, status: "active" })
+
+  res.json({
+    code: 200,
+    message: "Sucessful",
+    listen: songNew.listened
   })
 }
 

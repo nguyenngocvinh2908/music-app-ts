@@ -16,6 +16,8 @@ block main
               <i class="fa-solid fa-music"></i> #{topic.title}
             .inner-action.inner-like(data-id-song=song._id)
               <i class="fa-regular fa-thumbs-up"></i> <span>#{song.like}</span>
+            .inner-action.inner-listen
+              <i class="fa-regular fa-headphones"></i> <span>#{song.listened ? song.listened : 0}</span>
             .inner-action.inner-heart(data-favourite-id-song=song._id, class=(song.favourite ? "active" : ""))
               <i class="fa-regular fa-heart"></i> Favorite Music
           
