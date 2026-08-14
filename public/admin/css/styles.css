@@ -196,8 +196,237 @@ a {
   background: #ffffff;
   border: 1px solid var(--color-border);
   border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.main .card-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 14px 20px;
+  border-radius: 8px 8px 0 0;
+}
+
+.main .card-body {
   padding: 20px;
-  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   Table / List (topics, songs, singers, accounts, users...)
+   ========================================================================== */
+
+.table {
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #f9fafb;
+  color: #6b7280;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  transition: var(--transition);
+}
+
+.table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+.table-stt {
+  width: 60px;
+  text-align: center;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.table-img-wrapp {
+  width: 80px;
+}
+
+.table-img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+}
+
+.table-title {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.table-status {
+  width: 110px;
+}
+
+.table-actions {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.table-actions .btn {
+  margin-left: 6px;
+}
+
+.table-actions .btn-detail {
+  background-color: #e0e7ff;
+  border-color: #e0e7ff;
+  color: var(--color-primary-dark);
+}
+
+.table-actions .btn-detail:hover {
+  background-color: #c7d2fe;
+}
+
+.table-actions .btn-edit {
+  background-color: #fef3c7;
+  border-color: #fef3c7;
+  color: #92400e;
+}
+
+.table-actions .btn-edit:hover {
+  background-color: #fde68a;
+}
+
+.table-actions .btn-deleted {
+  background-color: #fee2e2;
+  border-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.table-actions .btn-deleted:hover {
+  background-color: #fecaca;
+}
+
+/* Badge trạng thái */
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.badge-success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badge-danger {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Nút Create phía trên bảng */
+.btn-outline-success {
+  border-color: #10b981;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.btn-outline-success:hover {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.btn-outline-success i {
+  margin-right: 4px;
+}
+
+/* ==========================================================================
+   Forms (create / edit pages)
+   ========================================================================== */
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 6px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--color-text);
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.form-control::placeholder {
+  color: #9ca3af;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 120px;
+}
+
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* Avatar preview (nếu dùng ảnh URL / upload) */
+.form-group .avatar-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  margin-top: 10px;
+  display: block;
+}
+
+/* Nút submit / cancel dưới form */
+form .btn {
+  padding: 8px 22px;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+form .btn-secondary {
+  background-color: #f3f4f6;
+  border-color: #f3f4f6;
+  color: #4b5563;
+}
+
+form .btn-secondary:hover {
+  background-color: #e5e7eb;
 }
 
 /* ==========================================================================

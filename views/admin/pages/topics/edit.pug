@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+
+block main
+  .card.mb-3
+    .card-header Edit Topic
+    .card-body
+      form(action=`/${prefixAdmin}/topics/edit/${topic._id}?_method=PATCH` method="POST")
+        .form-group.mb-3
+          label(for="title") Title
+          input(type="text" name="title" id="title" class="form-control" value=topic.title required)
+
+        .form-group.mb-3
+          label(for="avatar") Avatar (URL)
+          input(type="text" name="avatar" id="avatar" class="form-control" value=topic.avatar)
+          if topic.avatar
+            img(src=topic.avatar class="avatar-preview")
+
+        .form-group.mb-3
+          label(for="description") Description
+          textarea(name="description" id="description" class="form-control" rows="6") #{topic.description}
+
+        .form-group.mb-3
+          label(for="status") Status
+          select(name="status" id="status" class="form-control")
+            option(value="active" selected=topic.status === "active") Active
+            option(value="inactive" selected=topic.status === "inactive") Inactive
+
+        button(type="submit" class="btn btn-primary") Update
+        a(href=`/${prefixAdmin}/topics` class="btn btn-secondary ml-2") Cancel

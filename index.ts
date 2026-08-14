@@ -1,5 +1,7 @@
 import express, { Request, Response, Express } from 'express'
 import dotenv from 'dotenv'
+import methodOverride from 'method-override';
+
 import * as database from './config/database'
 import clientRoutes from './routes/client'
 import adminRoutes from './routes/admin'
@@ -15,6 +17,9 @@ app.set('view engine', 'pug')
 
 // Env
 dotenv.config()
+
+// Method Override
+app.use(methodOverride('_method'));
 
 // Global Variable
 app.locals.prefixAdmin = systemConfig.prefixAdmin
