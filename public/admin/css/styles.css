@@ -1,0 +1,248 @@
+/* ==========================================================================
+   Admin Panel Styles
+   ========================================================================== */
+
+:root {
+  --sider-width: 250px;
+  --header-height: 64px;
+  --color-primary: #4f46e5;
+  --color-primary-dark: #3730a3;
+  --color-bg: #f4f5f7;
+  --color-sider-bg: #1e1e2d;
+  --color-sider-text: #a2a3b7;
+  --color-sider-text-hover: #ffffff;
+  --color-border: #e4e6ef;
+  --color-text: #333333;
+  --transition: all 0.2s ease-in-out;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.header {
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+}
+
+.header .container-fluid {
+  width: 100%;
+  padding: 0 24px;
+}
+
+.header .row {
+  margin: 0;
+}
+
+/* Logo bên trái */
+.header .inner-logo a {
+  display: inline-flex;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
+  transition: var(--transition);
+}
+
+.header .inner-logo a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* Khu vực bên phải: tên tài khoản + logout */
+.header .text-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.header .text-right a {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.header .text-right a.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.header .text-right a.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+.header .text-right a.btn-danger {
+  background-color: #ffffff;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+}
+
+.header .text-right a.btn-danger:hover {
+  background-color: #e74c3c;
+  color: #ffffff;
+}
+
+/* Responsive: thu gọn header trên mobile */
+@media (max-width: 576px) {
+  .header .container-fluid {
+    padding: 0 12px;
+  }
+
+  .header .inner-logo a {
+    font-size: 18px;
+  }
+
+  .header .text-right a {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
+
+/* ==========================================================================
+   Body wrapper (sider + main)
+   ========================================================================== */
+
+.body {
+  display: flex;
+  min-height: calc(100vh - var(--header-height));
+}
+
+/* ==========================================================================
+   Sider / Sidebar
+   ========================================================================== */
+
+.sider {
+  width: var(--sider-width);
+  flex-shrink: 0;
+  background-color: var(--color-sider-bg);
+  min-height: calc(100vh - var(--header-height));
+  position: sticky;
+  top: var(--header-height);
+  align-self: flex-start;
+}
+
+.sider .inner-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0;
+}
+
+.sider .inner-menu ul li a {
+  display: block;
+  padding: 12px 24px;
+  color: var(--color-sider-text);
+  font-size: 14px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: var(--transition);
+}
+
+.sider .inner-menu ul li a:hover,
+.sider .inner-menu ul li a.active {
+  color: var(--color-sider-text-hover);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left-color: var(--color-primary);
+}
+
+/* ==========================================================================
+   Main content
+   ========================================================================== */
+
+.main {
+  flex: 1;
+  padding: 24px;
+  min-width: 0; /* prevents overflow issues inside flex */
+}
+
+.main .page-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.main .card,
+.main .box {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 13px;
+  color: #888;
+  background-color: #ffffff;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ==========================================================================
+   Buttons (bổ sung nhẹ cho bootstrap)
+   ========================================================================== */
+
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .body {
+    flex-direction: column;
+  }
+
+  .sider {
+    width: 100%;
+    position: relative;
+    top: 0;
+  }
+
+  .main {
+    padding: 16px;
+  }
+}
