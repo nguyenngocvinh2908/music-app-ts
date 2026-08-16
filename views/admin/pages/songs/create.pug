@@ -24,6 +24,11 @@ block main
           label(for="avatar") Image 
           input(type="file" class="form-control" id="avatar" name="avatar" accept="image/*" upload-image-input)
           img(src="" class="image-preview" upload-image-preview)
+        .form-group(upload-audio)
+          label(for="audio") File Music
+          input(type="file" class="form-control" id="audio" name="audio" accept="audio/*" upload-audio-input)
+          audio(controls upload-audio-play)
+            source(src="") 
         .form-group.mb-3
           label(for="description") Description
           textarea(name="description" id="desc" class="form-control" rows="6")

@@ -8,3 +8,18 @@ if(uploadImageContainers) {
     if(file) preview.src = URL.createObjectURL(file)
   })
 }
+
+// Handle Upload Audio Preview
+const uploadAudioContainers = document.querySelector("[upload-audio]")
+if(uploadAudioContainers) {
+  const input = uploadAudioContainers.querySelector("[upload-audio-input]")
+  const audioPlay = uploadAudioContainers.querySelector("[upload-audio-play]")
+  const source = audioPlay.querySelector("source")
+  input.addEventListener('change', (e) => {
+    const file = e.target.files[0]
+    if(file) {
+      source.src = URL.createObjectURL(file)
+      audioPlay.load()
+    }
+  })
+}
