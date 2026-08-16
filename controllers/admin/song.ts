@@ -27,8 +27,8 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 
 // [ POST ] "/admin/songs/create"
 export const createPost = async (req: Request, res: Response): Promise<void> => {
-  const { title, topicId, singerId, description, status, avatar, audio } = req.body;
-  const newSong = new Song({ title, topicId, singerId, description, status, avatar, audio, slug: slugify(title, { lower: true, strict: true })})
+  const { title, topicId, singerId, description, status, avatar, audio, lyrics } = req.body;
+  const newSong = new Song({ title, topicId, singerId, description, status, avatar, audio, lyrics, slug: slugify(title, { lower: true, strict: true })})
   await newSong.save()
 
   res.redirect(`/${(req as any).prefixAdmin || 'admin'}/songs`);

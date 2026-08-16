@@ -28,7 +28,10 @@ block main
           label(for="audio") File Music
           input(type="file" class="form-control" id="audio" name="audio" accept="audio/*" upload-audio-input)
           audio(controls upload-audio-play)
-            source(src="") 
+            source(src="")
+        .form-group
+          label(for="lyrics") Lyrics
+          textarea(name="lyrics" id="lyrics" class="form-control" rows="6")
         .form-group.mb-3
           label(for="description") Description
           textarea(name="description" id="desc" class="form-control" rows="6")
