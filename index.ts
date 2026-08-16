@@ -1,7 +1,9 @@
 import express, { Request, Response, Express } from 'express'
+// Env
 import dotenv from 'dotenv'
-import methodOverride from 'method-override';
+dotenv.config()
 
+import methodOverride from 'method-override';
 import * as database from './config/database'
 import clientRoutes from './routes/client'
 import adminRoutes from './routes/admin'
@@ -11,12 +13,14 @@ import path from 'path'
 const app: Express = express()
 const port: number | string = process.env.PORT || 3000
 
+// Body Parse
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // Pug
 app.set('views', './views') // Specify the views directory
 app.set('view engine', 'pug')
 
-// Env
-dotenv.config()
 
 // Method Override
 app.use(methodOverride('_method'));
@@ -36,7 +40,6 @@ database.connectDatabase()
 // Client Routes And Amin Router
 adminRoutes(app)
 clientRoutes(app)
-
 
 
 app.listen(port, () => {

@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+
+block main
+  .card.mb-3
+    .card-header Create Songs
+    .card-body
+      form(action=`/${prefixAdmin}/songs/create` method="POST" enctype="multipart/form-data")
+        .form-group.mb-3
+          label(for="title") Title 
+          input(type="text" name="title" id="title" class="form-control" required)
+        .form-group.mb-3 
+          label(for="topic") Topic 
+          select(name="topicId" id="topic" class="form-control" required)
+            option(value="" disabled selected) -- Select Topics --
+            each item in topics
+              option(value=item._id) #{item.title}
+        .form-group.mb-3 
+          label(for="singer") Singer 
+          select(name="singerId" id="singer" class="form-control" required)
+            option(value="" disabled selected) -- Select Singers --
+            each item in singers
+              option(value=item._id) #{item.fullName}
+        .form-group(upload-image)
+          label(for="avatar") Image 
+          input(type="file" class="form-control" id="avatar" name="avatar" accept="image/*" upload-image-input)
+          img(src="" class="image-preview" upload-image-preview)
+        .form-group.mb-3
+          label(for="description") Description
+          textarea(name="description" id="desc" class="form-control" rows="6")
+        .form-group.form-check.form-check-inline
+          input(type="radio" class="form-check-input" id="statusActive" name="status" value="active" checked)
+          label(for="statusActive" class="form-check-label") Active
+        .form-group.form-check
+          input(type="radio" class="form-check-input" id="statusInactive" name="status" value="inactive")
+          label(for="statusInactive" class="form-check-label") Inactive
+        
+        button(type="submit" class="btn btn-primary") Create
+        a(href=`/${prefixAdmin}/songs` class="btn btn-secondary ml-2") Cancels

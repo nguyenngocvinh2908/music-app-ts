@@ -430,6 +430,52 @@ form .btn-secondary:hover {
 }
 
 /* ==========================================================================
+   Upload Image (file input + preview)
+   ========================================================================== */
+
+.form-group[upload-image] {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group[upload-image] input[type="file"].form-control {
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.form-group[upload-image] input[type="file"].form-control::file-selector-button {
+  padding: 6px 14px;
+  margin-right: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.form-group[upload-image] input[type="file"].form-control::file-selector-button:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.image-preview {
+  display: none;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  margin-top: 12px;
+  background-color: #f9fafb;
+}
+
+.image-preview[src]:not([src=""]) {
+  display: block;
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 
