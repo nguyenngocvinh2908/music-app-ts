@@ -1,52 +1,13 @@
 import multer from 'multer'
-import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from 'cloudinary'
+import { v2 as cloudinary, UploadApiResponse } from 'cloudinary'
 import streamifier from 'streamifier'
 import { Readable } from 'stream'
 import { Request, Response, NextFunction } from 'express'
 
-// ============================================
-// 1. Cấu hình Multer (lưu tạm trong RAM dạng buffer)
-// ============================================
+// Storage dùng chung trong RAM
 const storage = multer.memoryStorage();
 
-// fileFilter phân biệt theo tên field (fieldname)
-const fileFilter = (
-  req: Request,
-  file: Express.Multer.File,
-  cb: multer.FileFilterCallback
-) => {
-  if (file.fieldname === 'avatar') {
-    if (file.mimetype.startsWith('image/')) {
-      return cb(null, true);
-    }
-    return cb(new Error('Trường avatar chỉ chấp nhận file ảnh!'));
-  }
-
-  if (file.fieldname === 'audio') {
-    if (file.mimetype.startsWith('audio/')) {
-      return cb(null, true);
-    }
-    return cb(new Error('Trường audio chỉ chấp nhận file âm thanh!'));
-  }
-
-  cb(new Error('Field không hợp lệ!'));
-};
-
-const upload = multer({
-  storage,
-  fileFilter,
-  limits: { fileSize: 20 * 1024 * 1024 } // 20MB, audio thường nặng hơn ảnh
-});
-
-// Middleware nhận nhiều field khác nhau, mỗi field 1 file
-export const uploadFields = upload.fields([
-  { name: 'avatar', maxCount: 1 },
-  { name: 'audio', maxCount: 1 }
-]);
-
-// ============================================
-// 2. Hàm upload buffer lên Cloudinary (lazy config)
-// ============================================
+// Config Cloudinary & Hàm Upload Core
 export const uploadBufferToCloudinary = (
   buffer: Buffer,
   folder: string,
@@ -61,10 +22,8 @@ export const uploadBufferToCloudinary = (
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       { folder, resource_type: resourceType },
-      (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
-        if (error || !result) {
-          return reject(error);
-        }
+      (error, result) => {
+        if (error || !result) return reject(error);
         resolve(result);
       }
     );
@@ -73,42 +32,97 @@ export const uploadBufferToCloudinary = (
 };
 
 // ============================================
-// 3. Middleware "gộp": upload nhiều field + tự đẩy lên Cloudinary
+// 1. TÁCH: Upload 1 file/ảnh (Dùng cho TinyMCE, Single Avatar)
 // ============================================
-export const uploadSongFilesToCloud = [
-  uploadFields,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const files = req.files as {
-        avatar?: Express.Multer.File[];
-        audio?: Express.Multer.File[];
-      };
+export const uploadSingle = (
+  fieldName: string, 
+  folder: string, 
+  resourceType: 'image' | 'video' | 'raw' | 'auto' = 'image'
+) => {
+  const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } }).single(fieldName);
 
-      // Upload avatar (nếu có)
-      if (files?.avatar?.[0]) {
-        const avatarResult = await uploadBufferToCloudinary(
-          files.avatar[0].buffer,
-          'songs/avatars',
-          'image'
-        );
-        req.body.avatar = avatarResult.secure_url;
-        req.body.avatarPublicId = avatarResult.public_id;
+  return [
+    upload,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        if (!req.file) return next();
+        const result = await uploadBufferToCloudinary(req.file.buffer, folder, resourceType);
+        
+        req.body[fieldName] = result.secure_url;
+        req.body[`${fieldName}PublicId`] = result.public_id;
+        next();
+      } catch (error) {
+        next(error);
       }
-
-      // Upload audio (nếu có)
-      if (files?.audio?.[0]) {
-        const audioResult = await uploadBufferToCloudinary(
-          files.audio[0].buffer,
-          'songs/audio',
-          'video'
-        );
-        req.body.audio = audioResult.secure_url;
-        req.body.audioPublicId = audioResult.public_id;
-      }
-
-      next();
-    } catch (error) {
-      next(error);
     }
-  }
-];
+  ];
+};
+
+// ============================================
+// 2. TÁCH: Upload MẢNG nhiều file cùng 1 trường (Dùng cho Album ảnh, Gallery)
+// ============================================
+export const uploadArray = (
+  fieldName: string, 
+  folder: string, 
+  maxCount: number = 5,
+  resourceType: 'image' | 'video' | 'raw' | 'auto' = 'image'
+) => {
+  const upload = multer({ storage, limits: { fileSize: 10 * 1024 * 1024 } }).array(fieldName, maxCount);
+
+  return [
+    upload,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const files = req.files as Express.Multer.File[];
+        if (!files || files.length === 0) return next();
+
+        const uploadPromises = files.map(file => uploadBufferToCloudinary(file.buffer, folder, resourceType));
+        const results = await Promise.all(uploadPromises);
+
+        // Trả về mảng các URL và Public ID
+        req.body[fieldName] = results.map(r => r.secure_url);
+        req.body[`${fieldName}PublicIds`] = results.map(r => r.public_id);
+        next();
+      } catch (error) {
+        next(error);
+      }
+    }
+  ];
+};
+
+// ============================================
+// 3. TÁCH: Upload NHIỀU TRƯỜNG khác nhau (Dùng cho Song: avatar + audio)
+// ============================================
+export interface FieldConfig {
+  name: string;
+  folder: string;
+  resourceType: 'image' | 'video' | 'raw' | 'auto';
+  maxCount?: number;
+}
+
+export const uploadFields = (fieldsConfig: FieldConfig[]) => {
+  const multerFields = fieldsConfig.map(f => ({ name: f.name, maxCount: f.maxCount || 1 }));
+  const upload = multer({ storage, limits: { fileSize: 20 * 1024 * 1024 } }).fields(multerFields);
+
+  return [
+    upload,
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        if (!req.files) return next();
+        const filesMap = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+        for (const config of fieldsConfig) {
+          const fileArray = filesMap[config.name];
+          if (fileArray && fileArray[0]) {
+            const result = await uploadBufferToCloudinary(fileArray[0].buffer, config.folder, config.resourceType);
+            req.body[config.name] = result.secure_url;
+            req.body[`${config.name}PublicId`] = result.public_id;
+          }
+        }
+        next();
+      } catch (error) {
+        next(error);
+      }
+    }
+  ];
+};

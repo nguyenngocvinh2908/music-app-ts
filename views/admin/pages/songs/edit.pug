@@ -1,0 +1,46 @@
+extends ../../layouts/default.pug
+
+block main
+  .card.mb-3
+    .card-header Create Songs
+    .card-body
+      form(action=`/${prefixAdmin}/songs/edit/${song._id}?_method=PATCH` method="POST" enctype="multipart/form-data")
+        .form-group.mb-3
+          label(for="title") Title 
+          input(type="text" name="title" id="title" class="form-control" value=song.title required)
+        .form-group.mb-3 
+          label(for="topic") Topic 
+          select(name="topicId" id="topic" class="form-control" required)
+            option(value="" disabled) -- Select Topics --
+            each item in topics
+              option(value=item._id selected=(item._id === song._topicId)) #{item.title}
+        .form-group.mb-3 
+          label(for="singer") Singer 
+          select(name="singerId" id="singer" class="form-control" required)
+            option(value="" disabled) -- Select Singers --
+            each item in singers
+              option(value=item._id selected=(item._id === song.singerId)) #{item.fullName}
+        .form-group(upload-image)
+          label(for="avatar") Image 
+          input(type="file" class="form-control" id="avatar" name="avatar" accept="image/*" upload-image-input value=song.avatar)
+          img(src=song.avatar class="image-preview" upload-image-preview)
+        .form-group(upload-audio)
+          label(for="audio") File Music
+          input(type="file" class="form-control" id="audio" name="audio" accept="audio/*" upload-audio-input value=song.audio)
+          audio(controls upload-audio-play)
+            source(src=song.audio)
+        .form-group
+          label(for="lyrics") Lyrics
+          textarea(name="lyrics" id="lyrics" class="form-control" rows="6" value=song.lyrics)
+        .form-group.mb-3
+          label(for="description") Description
+          textarea(name="description" id="desc" class="form-control" rows="6") !{song.description}
+        .form-group.form-check.form-check-inline
+          input(type="radio" class="form-check-input" id="statusActive" name="status" value="active" checked=song.status=="active")
+          label(for="statusActive" class="form-check-label") Active
+        .form-group.form-check
+          input(type="radio" class="form-check-input" id="statusInactive" name="status" value="inactive" checked=song.status=="inactive")
+          label(for="statusInactive" class="form-check-label") Inactive
+        
+        button(type="submit" class="btn btn-primary") Edit
+        a(href=`/${prefixAdmin}/songs` class="btn btn-secondary ml-2") Cancels

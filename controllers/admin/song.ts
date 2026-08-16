@@ -33,3 +33,27 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
 
   res.redirect(`/${(req as any).prefixAdmin || 'admin'}/songs`);
 }
+
+// [ GET ] "/admin/songs/edit/:idSong"
+export const edit = async (req: Request, res: Response): Promise<void> => {
+  const idSong = req.params.idSong
+  const song = await Song.findOne({ _id: idSong, status: "active", deleted: false })
+  const topics = await Topic.find({ status: "active", deleted: false }).select("title")
+
+  const singers = await Singer.find({ status: "active", deleted: false }).select("fullName")
+
+  res.render('admin/pages/songs/edit.pug', {
+    song: song,
+    topics: topics,
+    singers: singers
+  })
+}
+
+// [ POST ] "/admin/songs/edit/:idSong"
+export const editPatch = async (req: Request, res: Response): Promise<void> => {
+  const idSong = req.params.idSong
+  const { title, topicId, singerId, description, status, avatar, audio, lyrics } = req.body;
+  await Song.updateOne({ _id: idSong }, { title, topicId, singerId, description, status, avatar, audio, lyrics })
+  
+  res.redirect(`/${(req as any).prefixAdmin || 'admin'}/songs/edit/${idSong}`);
+}

@@ -3,6 +3,7 @@ import { Express } from 'express'
 import { DashboardRouter }  from './dashboard'
 import { TopicRouter } from './topic';
 import { SongRouter } from './song'
+import { UploadRouter } from './upload';
 
 
 const adminRoutes = (app: Express): void => {
@@ -14,6 +15,8 @@ const adminRoutes = (app: Express): void => {
   app.use(`/${PATCH_ADMIN}/topics`, TopicRouter)
 
   app.use(`/${PATCH_ADMIN}/songs`, SongRouter)
+
+  app.use(`/${PATCH_ADMIN}/upload`, UploadRouter)
 
 }
 
