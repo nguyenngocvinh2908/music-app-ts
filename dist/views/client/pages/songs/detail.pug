@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+
+block main
+  .singer-detail
+    .container.my-3 
+      .row 
+        .col-12 
+          .inner-title #{song.title}
+          
+          .inner-actions
+            .inner-action.inner-time
+              <i class="fa-regular fa-clock"></i> 20/10/2023
+            .inner-action.inner-singer
+              <i class="fa-solid fa-microphone"></i> #{singer.fullName}
+            .inner-action.inner-topic
+              <i class="fa-solid fa-music"></i> #{topic.title}
+            .inner-action.inner-like(data-id-song=song._id)
+              <i class="fa-regular fa-thumbs-up"></i> <span>#{song.like}</span>
+            .inner-action.inner-listen
+              <i class="fa-regular fa-headphones"></i> <span>#{song.listened ? song.listened : 0}</span>
+            .inner-action.inner-heart(data-favourite-id-song=song._id, class=(song.favourite ? "active" : ""))
+              <i class="fa-regular fa-heart"></i> Favorite Music
+          
+          .inner-play 
+            .inner-avatar 
+              img(src=song.avatar alt=song.title class="singer-avatar")
+            .inner-audio
+              #aplayer(data-song=song data-singer=singer)
+          .inner-desc
+            .inner-label Description
+            .inner-text
+              | #{song.description}
+          
+          .inner-desc
+            .inner-label Lyrics
+            .inner-lyric
+              | !{song.lyrics}
+            

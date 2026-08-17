@@ -1,0 +1,32 @@
+header.header
+  .container
+    .row.align-items-center
+      .col-3 
+        .inner-logo
+          a(href="/")
+            img(src="/images/logo.svg" alt="Logo")
+          p.logo-text Music App
+      .col-5
+        .box-search
+          form(action="/search/result", method="GET")
+            div(class="form-group d-flex mb-0")
+              input(type="text" placeholder="Search...", class="form-control" name="keyword", value=keyword)
+              button(type="submit" class="btn btn-primary") Search
+          .inner-suggest.show
+            .inner-list
+              //- a(href=`/songs/detail/:slugSong` class="inner-item")
+              //-   .inner-image
+              //-     img(src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80" alt="")
+              //-   .inner-info
+              //-     .inner-title Cat Doi Noi Sau
+              //-     .inner-singer 
+              //-       <i class="fa-solid fa-microphone-lines"></i> Tang Duy Tan
+      .col-4
+        .inner-menu
+          ul
+            li
+              a(href="/") <i class="fa-regular fa-house"></i> Home
+            li
+              a(href="/topics") <i class="fa-solid fa-music"></i> Topics
+            li
+              a(href="/favorite-songs") <i class="fa-regular fa-heart"></i> Favorite

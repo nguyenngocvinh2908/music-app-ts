@@ -1,0 +1,27 @@
+extends ../../layouts/default.pug
+
+block main
+  .card.mb-3
+    .card-header Create Topic
+    .card-body
+      form(action=`/${prefixAdmin}/topics/create` method="POST")
+        .form-group.mb-3
+          label(for="title") Title
+          input(type="text" name="title" id="title" class="form-control" required)
+
+        .form-group.mb-3
+          label(for="avatar") Avatar (URL)
+          input(type="text" name="avatar" id="avatar" class="form-control")
+
+        .form-group.mb-3
+          label(for="description") Description
+          textarea(name="description" id="description" class="form-control" rows="6")
+
+        .form-group.mb-3
+          label(for="status") Status
+          select(name="status" id="status" class="form-control")
+            option(value="active") Active
+            option(value="inactive") Inactive
+
+        button(type="submit" class="btn btn-primary") Create
+        a(href=`/${prefixAdmin}/topics` class="btn btn-secondary ml-2") Cancel

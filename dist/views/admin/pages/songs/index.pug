@@ -1,0 +1,35 @@
+extends ../../layouts/default.pug
+
+block main 
+  .card.mb-3 
+    .card-header The List Songs
+    .card-body  
+      .row 
+        .col-12.text-end.mb-3
+          a(href=`/${prefixAdmin}/songs/create` class="btn btn-outline-success")
+            <i class="fa-regular fa-square-plus"></i> Create
+      
+      table(class="table table-hover table-sm")
+        thead
+          tr
+            th STT 
+            th Image
+            th Title 
+            th Status 
+            th Actions
+        tbody 
+          each item, index in songs 
+            tr 
+              td.table-stt #{index + 1}
+              td.table-img-wrapp
+                img(src=item.avatar alt=item.title class="table-img")
+              td.table-title #{item.title}
+              td.table-status
+                if (item.status === "active")
+                  a(href="javascript:;" class="badge badge-success") Active 
+                else 
+                  a(href="javascript:;" class="badge badge-danger") Inactive
+              td.table-actions
+                a(class="btn btn-secondary btn-sm btn-detail" href=`/${prefixAdmin}/songs/detail/${item._id}`) Detail
+                a(class="btn btn-secondary btn-sm btn-edit" href=`/${prefixAdmin}/songs/edit/${item._id}`) Edit
+                button(class="btn btn-secondary btn-sm btn-deleted" button-detele data-id=item._id) Delete
