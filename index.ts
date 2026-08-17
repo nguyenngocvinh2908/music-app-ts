@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Pug
-app.set('views', path.join(process.cwd(), 'views')) // Specify the views directory
+app.set('views', path.join(__dirname, 'views')) // Specify the views directory
 app.set('view engine', 'pug')
 
 
@@ -32,7 +32,7 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 // Nhúng file tĩnh (CSS, JS, hình ảnh,...) vào ứng dụng
-app.use(express.static(path.join(process.cwd(), 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Database
 database.connectDatabase()
